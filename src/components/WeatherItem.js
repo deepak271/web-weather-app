@@ -7,6 +7,7 @@ export default class WeatherItem extends Component {
         <div className="card" style={{width: "18rem"}} key={this.props.k}>
             <img src={this.props.imgUrl} className="card-img-top" alt="..."/>
             <div className="card-body">
+                <h2 className="card-title">City:{this.props.city}</h2>
                 <h5 className="card-title">Temp:{this.props.temp-273}</h5>
                 <p className="card-text">{this.props.dis}</p>
                 <div>Speed:{this.props.speed}</div>

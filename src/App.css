@@ -1,0 +1,26 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.location{
+    background-color: rgb(105, 229, 221);  
+    text-align: center;
+    overflow: auto;
+}
+
+.place{
+ border: 1px solid red;
+ float: left;
+}
+.name{
+    font-size: 1.5rem;
+    padding-bottom: 0;
+}
+.date{
+    font-size: 1.1rem;
+    padding:.01rem 1.5rem ;
+}
+.temp{
+    border: 1px solid red;
+    float: right;
+}
