@@ -3,6 +3,7 @@ import './App.css';
 import React, { Component } from 'react'
 import Navbar from './components/Navbar';
 import Location from './components/Location';
+import WeatherConditions from './components/WeatherConditions';
 // import Weather from './components/Weather';
 
 
@@ -17,11 +18,10 @@ export default class App extends Component {
       city:"Delhi",
       state:"Delhi",
       country:"IN",
-      isData:false
+      wData:{
+        date:new Date().toDateString()
+      }
     }
-    this.wdata={
-      date:new Date().toDateString()
-    };
    }
    changeCity=(c)=>{
    
@@ -41,8 +41,7 @@ export default class App extends Component {
         long:parsedData[0].lon
       },
       state:parsedData[0].state,
-      country:parsedData[0].country,
-      isData:true
+      country:parsedData[0].country
     })
     setTimeout(this.currentWeather,0);
    }
@@ -51,26 +50,42 @@ export default class App extends Component {
     let wData = await fetch(url);
     let pData = await wData.json();
     console.log(pData)
+    console.log(url)
     let ic = pData.weather[0].icon;
     let tem = pData.main.temp;
     let des = pData.weather[0].description;
-
-    this.wdata={
-      ...this.wdata,
-      temp:tem,
-      desc:des,
-      imgUrl:`http://openweathermap.org/img/wn/${pData.weather[0].icon}@2x.png`
+    
+    this.setState(
+    {
+      wData:{
+          ...this.state.wData,
+          temp:tem,
+          desc:des,
+          imgUrl:`http://openweathermap.org/img/wn/${pData.weather[0].icon}@2x.png`,
+          sunrise:this.getTime(pData.sys.sunrise),
+          sunset:this.getTime(pData.sys.sunset),
+          high:((pData.main.temp_max)-273.15).toFixed(2),
+          low :((pData.main.temp_min)-273.15).toFixed(2),
+          wind:pData.wind.speed, 
+          humi:pData.main.humidity
+      }
     }
-    console.log(this.wdata);
-
+    )
+    console.log(this.state.wData);
   }
+  getTime=(t)=>{
+    let x =t*1000;
+    let tim = new Date(x);
+    return `${tim.getHours()}:${tim.getMinutes()}`;
+   }
  
   render() {
     return (
       <div>
         <Navbar fn1={this.changeCity} fn2={this.findCity} />
-        <Location city={this.state.city} state={this.state.state} country={this.state.country} wdata={this.wdata}/>
+        <Location city={this.state.city} state={this.state.state} country={this.state.country} wdata={this.state.wData}/>
         {/* <Weather/> */}
+        <WeatherConditions wdata = {this.state.wData}/>
       </div>
     )
   }
