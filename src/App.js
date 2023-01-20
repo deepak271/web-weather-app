@@ -10,6 +10,7 @@ import WeatherConditions from './components/WeatherConditions';
 export default class App extends Component {
    constructor(props){
     super(props);
+    this.key=process.env.REACT_APP_API_KEY
     this.state={
       location:{
         lat:28.65,
@@ -31,10 +32,10 @@ export default class App extends Component {
     //console.log("states before:"+this.state)
    }
    findCity=async ()=>{
-    let url = `http://api.openweathermap.org/geo/1.0/direct?q=${this.state.city}&appid=8bbca8a0bce1bdef0ea21c55d7210655`;
+    let url = `http://api.openweathermap.org/geo/1.0/direct?q=${this.state.city}&appid=${this.key}`;
     let cityData = await fetch(url);
     let parsedData = await cityData.json();
-   //console.log(parsedData);
+   console.log(url);
     this.setState({
       location:{
         lat:parsedData[0].lat,
@@ -46,7 +47,7 @@ export default class App extends Component {
     setTimeout(this.currentWeather,0);
    }
   currentWeather=async()=>{
-    let url=`https://api.openweathermap.org/data/2.5/weather?lat=${this.state.location.lat}&lon=${this.state.location.long}&appid=8bbca8a0bce1bdef0ea21c55d7210655`;
+    let url=`https://api.openweathermap.org/data/2.5/weather?lat=${this.state.location.lat}&lon=${this.state.location.long}&appid=${this.key}`;
     let wData = await fetch(url);
     let pData = await wData.json();
     console.log(pData)

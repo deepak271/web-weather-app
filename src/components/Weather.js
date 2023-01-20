@@ -8,10 +8,11 @@ export default class weather extends Component {
         this.state = {
             data:null,
         }
+        this.k = process.env.REACT_APP_API_KEY
       }
       async componentDidMount()
       {
-        let url = "http://api.openweathermap.org/data/2.5/forecast?lat=28.38&lon=77.22&appid=6394c8d0fd3de0b26ff56ce026e7bb2f";
+        let url = `http://api.openweathermap.org/data/2.5/forecast?lat=28.38&lon=77.22&appid=${this.k}`;
         let dat = await fetch(url);
         let parsdata = await dat.json();
         console.log(parsdata)
